@@ -1,0 +1,18 @@
+version: 2
+importPivots: 1
+tpsheetFileNames:
+- Assets/codeandweb.com/Example/SpriteSheet/sprites.tpsheet
+- Assets/Resources/EventAtlas 1.tpsheet
+- Assets/Resources/EventAtlas.tpsheet
+- Assets/Resources/eventAtlas.tpsheet
+textureFileNames:
+- Assets/codeandweb.com/Example/SpriteSheet/sprites.png
+- Assets/Resources/EventAtlas.png
+- Assets/Resources/EventAtlas.png
+- Assets/Resources/EventAtlas.png
+normalmapFileNames:
+- Assets/codeandweb.com/Example/SpriteSheet/sprites_n.png
+- 
+- 
+- 
+enableDebugOutput: 0
