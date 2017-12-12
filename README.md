@@ -1,3 +1,2 @@
 # fungee
-
-![ScreenShot](fungee.png)
+![alt text](fungee.jpg "design")
