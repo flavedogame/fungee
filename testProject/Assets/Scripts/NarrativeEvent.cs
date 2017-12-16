@@ -7,6 +7,10 @@ public class NarrativeEvent{
 
 }
 
+public enum DialogueBubbleType{
+	Talk, Think
+}
+
 public enum CharacterType{
 	Hero,Ally, Mentor
 }
@@ -16,4 +20,6 @@ public struct Dialogue{
 	public string name;
 	public string atlasImageName;
 	public string dialogueText;
+	public float duration;
+	public DialogueBubbleType bubbleType;
 }

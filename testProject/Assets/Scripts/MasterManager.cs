@@ -2,21 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(AtlasManager))]
-[RequireComponent(typeof(AnimationManger))]
-[RequireComponent(typeof(PanelManager))]
+[RequireComponent(typeof(DialogBubbleManager))]
 public class MasterManager : MonoBehaviour {
 	private List<IManager> _managerList = new List<IManager> ();
-	public static AtlasManager atlasManager { get; private set; }
-	public static PanelManager panelManager { get; private set; }
-	public static AnimationManger animationManager { get; private set; }
+	public static DialogBubbleManager dialogBubbleManager { get; private set; }
 	void Awake(){
-		atlasManager = GetComponent<AtlasManager> ();
-		animationManager = GetComponent<AnimationManger> ();
-		panelManager = GetComponent<PanelManager> ();
-		_managerList.Add (atlasManager);
-		_managerList.Add (animationManager);
-		_managerList.Add (panelManager);
+		dialogBubbleManager = GetComponent<DialogBubbleManager> ();
+		_managerList.Add (dialogBubbleManager);
 		StartCoroutine (BootAllManagers ());
 	}
 
