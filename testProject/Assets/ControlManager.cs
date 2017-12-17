@@ -5,6 +5,7 @@ using UnityEngine;
 public class ControlManager : MonoBehaviour {
 
 	public PlayerControl playerControl;
+	public int step = 0;
 	// Use this for initialization
 	void Start () {
 		
@@ -17,14 +18,17 @@ public class ControlManager : MonoBehaviour {
 		}
 		if (Input.GetKeyDown ("left")) {
 			playerControl.MoveLeft ();
-		}else if(Input.GetKeyDown ("right")) {
+		} else if (Input.GetKeyDown ("right")) {
 			playerControl.MoveRight ();
-		}else if(Input.GetKeyDown ("up")) {
+		} else if (Input.GetKeyDown ("up")) {
 			playerControl.MoveUp ();
-		}else if(Input.GetKeyDown ("down")) {
+		} else if (Input.GetKeyDown ("down")) {
 			playerControl.MoveDown ();
-		}else if(Input.GetMouseButtonDown(0)){
+		} else if (Input.GetMouseButtonDown (0)) {
 			playerControl.Shoot ();
+		} else {
+			return;
 		}
+
 	}
 }
