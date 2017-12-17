@@ -12,6 +12,9 @@ public class ControlManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (!playerControl.CanTakeInput ()) {
+			return;
+		}
 		if (Input.GetKeyDown ("left")) {
 			playerControl.MoveLeft ();
 		}else if(Input.GetKeyDown ("right")) {
@@ -20,6 +23,8 @@ public class ControlManager : MonoBehaviour {
 			playerControl.MoveUp ();
 		}else if(Input.GetKeyDown ("down")) {
 			playerControl.MoveDown ();
+		}else if(Input.GetMouseButtonDown(0)){
+			playerControl.Shoot ();
 		}
 	}
 }
