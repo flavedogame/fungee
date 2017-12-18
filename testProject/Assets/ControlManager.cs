@@ -26,6 +26,8 @@ public class ControlManager : MonoBehaviour {
 			playerControl.MoveDown ();
 		} else if (Input.GetMouseButtonDown (0)) {
 			playerControl.Shoot ();
+		} else if (Input.GetKeyDown ("space")) {
+			playerControl.Jump ();
 		} else {
 			return;
 		}

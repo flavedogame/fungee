@@ -20,6 +20,7 @@ public class PlayerControl : MonoBehaviour {
 	bool isShooting;
 	bool isClimbing;
 	bool isFalling;
+	bool isClimbingFinish;
 	float tileWidth = 1.0f;
 	float time = 0f;
 	// Use this for initialization
@@ -32,6 +33,11 @@ public class PlayerControl : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (isClimbingFinish) {
+			transform.position += new Vector3 (0f, 1f, 0f);
+			isClimbingFinish = false;
+		}
+		gameObject.SetActive (true);
 		if (isMoving) {
 			time += Time.deltaTime;
 			if (time >= 1.0f/speed) {
@@ -51,9 +57,25 @@ public class PlayerControl : MonoBehaviour {
 		}
 	}
 
+	public void Jump(){
+		isClimbing = true;
+		AnimatorRunner.Run (animator, Constants.AnimationTuples.climbAnimation);
+		stepManager.Notify ();
+	}
+
+	public void FinishJump(){
+		isClimbing = false;
+		isClimbingFinish = true;
+		AnimatorRunner.Run (animator, Constants.AnimationTuples.stopClimbAnimation);
+	}
+
 	public bool IsOnGround(){
-		LayerMask mask = LayerMask.GetMask ("Default");
-		return Physics2D.Raycast (new Vector2 (transform.position.x, transform.position.y), new Vector2 (0, -1), 1f, mask);
+		return true;
+		LayerMask mask1 = LayerMask.GetMask ("Default");
+		LayerMask mask2 = LayerMask.GetMask ("weapon");
+		LayerMask mask = mask1|mask2;
+		return Physics2D.Raycast (new Vector2 (transform.position.x, transform.position.y), new Vector2 (0, -1), 1f, mask1) ||
+			Physics2D.Raycast (new Vector2 (transform.position.x, transform.position.y), new Vector2 (0, -1), 1f, mask2);
 	}
 
 	public bool CanMoveLeft(){
