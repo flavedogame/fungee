@@ -21,9 +21,9 @@ public class ControlManager : MonoBehaviour {
 		} else if (Input.GetKeyDown ("right")) {
 			playerControl.MoveRight ();
 		} else if (Input.GetKeyDown ("up")) {
-			playerControl.MoveUp ();
+			playerControl.Jump ();
 		} else if (Input.GetKeyDown ("down")) {
-			playerControl.MoveDown ();
+			playerControl.Fall ();
 		} else if (Input.GetMouseButtonDown (0)) {
 			playerControl.Shoot ();
 		} else if (Input.GetKeyDown ("space")) {

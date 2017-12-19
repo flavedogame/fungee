@@ -24,6 +24,8 @@ namespace Constants {
 		internal static AnimationTuple stopFallAnimation = new AnimationTuple("isFalling",false);
 		internal static AnimationTuple climbAnimation = new AnimationTuple("isClimbing",true);
 		internal static AnimationTuple stopClimbAnimation = new AnimationTuple("isClimbing",false);
+		internal static AnimationTuple throwOverAnimation = new AnimationTuple("isThrowingOver",true);
+		internal static AnimationTuple stopThrowOverAnimation = new AnimationTuple("isThrowingOver",false);
 		}
 }
 

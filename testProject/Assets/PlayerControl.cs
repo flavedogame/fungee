@@ -8,8 +8,12 @@ public class PlayerControl : MonoBehaviour {
 	public float speed = 1.0f;
 	private StepManager stepManager;
 	public Transform gunTop;
+	public Transform shootPointLeft;
+	public Transform shootPointRight;
 	private Puppet2D_GlobalControl globalControl;
 	private Animator animator;
+
+	private Vector3 originPosition;//3.348,0.35
 
 	private bool isFacingRight = true;
 
@@ -29,27 +33,44 @@ public class PlayerControl : MonoBehaviour {
 		animator = GetComponent<Animator> ();
 		//gunTop = transform.Find ("gunTop");
 		stepManager = GameObject.FindObjectOfType<StepManager> ();
+		originPosition = transform.position;
+		Debug.Log ("originPosition" + originPosition);
+		Debug.Log ("originPosition.local" + transform.localPosition);
+	}
+
+	Vector3 CorrectedPosition(Vector3 rawPosition){
+		float removeOffsetX = Mathf.Round (rawPosition.x - originPosition.x);
+		removeOffsetX += originPosition.x;
+
+		Debug.Log ("originPosition.y"+originPosition.y);
+		Debug.Log ("rawPosition.y"+rawPosition.y);
+		float removeOffsetY = Mathf.Round (rawPosition.y - originPosition.y);
+		removeOffsetY += originPosition.y;
+		Debug.Log ("removeOffsetY"+removeOffsetY);
+
+		return new Vector3 (removeOffsetX, removeOffsetY, originPosition.z);
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		if (isClimbingFinish) {
-			transform.position += new Vector3 (0f, 1f, 0f);
+			transform.position += targetDirection;
+			transform.position = CorrectedPosition (transform.position);
 			isClimbingFinish = false;
 		}
 		gameObject.SetActive (true);
 		if (isMoving) {
 			time += Time.deltaTime;
 			if (time >= 1.0f/speed) {
-				isMoving = false;
+				StartCoroutine (delaySetMoving());
 				AnimatorRunner.Run (animator, Constants.AnimationTuples.stopMoveAnimation);
 				AnimatorRunner.Run (animator, Constants.AnimationTuples.stopFallAnimation);
 				time = 0;
-				transform.position = finalPosition;
+				transform.position = CorrectedPosition( finalPosition);
 			} else {
 				transform.Translate (Time.deltaTime * speed * targetDirection );
 			}
-			Debug.Log (transform.position + " targetDirection " + targetDirection + " finalPosition " + startPosition + targetDirection);
+			//Debug.Log (transform.position + " targetDirection " + targetDirection + " finalPosition " + startPosition + targetDirection);
 		} else {
 			if (!IsOnGround()) {
 				Fall ();
@@ -57,8 +78,26 @@ public class PlayerControl : MonoBehaviour {
 		}
 	}
 
+	IEnumerator delaySetMoving(){
+		yield return new WaitForSeconds (0.01f);
+		isMoving = false;
+	}
+
+	public void ThrowOver(){
+		isClimbing = true;
+		AnimatorRunner.Run (animator, Constants.AnimationTuples.throwOverAnimation);
+		stepManager.Notify ();
+	}
+
+	public void FinishThrowOver(){
+		isClimbing = false;
+		isClimbingFinish = true;
+		AnimatorRunner.Run (animator, Constants.AnimationTuples.stopThrowOverAnimation);
+	}
+
 	public void Jump(){
 		isClimbing = true;
+		targetDirection = new Vector3 (0, 1, 0);
 		AnimatorRunner.Run (animator, Constants.AnimationTuples.climbAnimation);
 		stepManager.Notify ();
 	}
@@ -70,7 +109,6 @@ public class PlayerControl : MonoBehaviour {
 	}
 
 	public bool IsOnGround(){
-		return true;
 		LayerMask mask1 = LayerMask.GetMask ("Default");
 		LayerMask mask2 = LayerMask.GetMask ("weapon");
 		LayerMask mask = mask1|mask2;
@@ -80,21 +118,31 @@ public class PlayerControl : MonoBehaviour {
 
 	public bool CanMoveLeft(){
 		LayerMask mask = LayerMask.GetMask ("Default");
-		return !Physics2D.Raycast (new Vector2 (transform.position.x, transform.position.y), new Vector2 (-1, 0), 1f, mask);
+		LayerMask mask2 = LayerMask.GetMask ("weapon");
+		return !Physics2D.Raycast (new Vector2 (transform.position.x, transform.position.y), new Vector2 (-1, 0), 1f, mask) &&
+			!Physics2D.Raycast (new Vector2 (transform.position.x, transform.position.y), new Vector2 (-1, 0), 1f, mask2);
+	}
+
+	public bool CanThrowOverLeft(){
+		LayerMask mask = LayerMask.GetMask ("Default");
+		return !Physics2D.Raycast (new Vector2 (transform.position.x, transform.position.y) + new Vector2(0,1), new Vector2 (-1, 0), 1f, mask);
 	}
 
 	public bool CanMoveRight(){
 		LayerMask mask = LayerMask.GetMask ("Default");
-		return !Physics2D.Raycast (new Vector2 (transform.position.x, transform.position.y), new Vector2 (1, 0), 1f, mask);
+		LayerMask mask2 = LayerMask.GetMask ("weapon");
+		return !Physics2D.Raycast (new Vector2 (transform.position.x, transform.position.y), new Vector2 (1, 0), 1f, mask)&&
+			!Physics2D.Raycast (new Vector2 (transform.position.x, transform.position.y), new Vector2 (1, 0), 1f, mask2);
 	}
 
-	public bool CanMoveUp(){
-		return Physics2D.Raycast (new Vector2 (transform.position.x, transform.position.y), new Vector2 (0, 1), 1f, 9);
+	public bool CanThrowOverRight(){
+		LayerMask mask = LayerMask.GetMask ("Default");
+		return !Physics2D.Raycast (new Vector2 (transform.position.x, transform.position.y) + new Vector2(0,1), new Vector2 (1, 0), 1f, mask);
 	}
 
 	public bool CanTakeInput(){
 		//Debug.Log (isMoving + " " + isShooting + " " + isClimbing);
-		return !isMoving && !isShooting && !isClimbing && !isFalling;
+		return !isMoving && !isShooting && !isClimbing && !isFalling &&!isClimbingFinish;
 	}
 
 	public void Fall(){
@@ -117,7 +165,13 @@ public class PlayerControl : MonoBehaviour {
 	public void ShootArrow(){
 		GameObject arrow = Instantiate(Resources.Load<GameObject> ("arrow"));
 		ArrowScript arrowScript = arrow.GetComponent<ArrowScript> ();
-		arrow.transform.position = gunTop.position;
+		if (isFacingRight) {
+			
+			arrow.transform.position = shootPointRight.position;
+		} else {
+			arrow.transform.position = shootPointLeft.position;
+		}
+		Debug.Log ("shoot arrow face right " + isFacingRight);
 		arrowScript.SetDirection (isFacingRight);
 		stepManager.AddObserver (arrowScript);
 		stepManager.Notify ();
@@ -129,54 +183,44 @@ public class PlayerControl : MonoBehaviour {
 		AnimatorRunner.Run (animator, Constants.AnimationTuples.stopShootAnimation);
 	}
 
-
-	public void MoveUp(){
-		if (!isMoving) {
-			isMoving = true;
-			FaceLeft ();
-			startPosition = transform.position;
-			targetDirection = new Vector3 (0f, tileWidth, 0f);
-			finalPosition = startPosition + targetDirection;
-		}
-	}
-
-	public void MoveDown(){
-		if (!isMoving) {
-			isMoving = true;
-			FaceLeft ();
-			startPosition = transform.position;
-			targetDirection = new Vector3 (0f, -tileWidth, 0f);
-			finalPosition = startPosition + targetDirection;
-		}
-	}
 	public void MoveLeft(){
 		if (!isMoving) {
-			isMoving = true;
-			AnimatorRunner.Run (animator, Constants.AnimationTuples.moveAnimation);
 			FaceLeft ();
-			startPosition = transform.position;
-			if (CanMoveLeft ()) {
-				targetDirection = new Vector3 (-tileWidth, 0f, 0f);
+			if (!CanMoveLeft ()&&CanThrowOverLeft()) {
+				ThrowOver ();
+				targetDirection = new Vector3 (-tileWidth, 1, 0);
 			} else {
-				targetDirection = Vector3.zero;
+				isMoving = true;
+				AnimatorRunner.Run (animator, Constants.AnimationTuples.moveAnimation);
+				startPosition = transform.position;
+				if (CanMoveLeft ()) {
+					targetDirection = new Vector3 (-tileWidth, 0f, 0f);
+				} else {
+					targetDirection = Vector3.zero;
+				}
+				finalPosition = startPosition + targetDirection;
 			}
-			finalPosition = startPosition + targetDirection;
 			stepManager.Notify ();
 		}
 	}
 
 	public void MoveRight(){
 		if (!isMoving) {
-			isMoving = true;
-						AnimatorRunner.Run (animator, Constants.AnimationTuples.moveAnimation);
 			FaceRight ();
-			startPosition = transform.position;
-			if (CanMoveRight ()) {
-				targetDirection = new Vector3 (-tileWidth, 0f, 0f);
+			if (!CanMoveRight ()&&CanThrowOverRight()) {
+				ThrowOver ();
+				targetDirection = new Vector3 (tileWidth, 1, 0);
 			} else {
-				targetDirection = Vector3.zero;
+				isMoving = true;
+				AnimatorRunner.Run (animator, Constants.AnimationTuples.moveAnimation);
+				startPosition = transform.position;
+				if (CanMoveRight ()) {
+					targetDirection = new Vector3 (-tileWidth, 0f, 0f);
+				} else {
+					targetDirection = Vector3.zero;
+				}
+				finalPosition = startPosition - targetDirection;
 			}
-			finalPosition = startPosition - targetDirection;
 			stepManager.Notify ();
 		}
 	}
@@ -184,6 +228,7 @@ public class PlayerControl : MonoBehaviour {
 	void Face(bool isRight) {
 		globalControl.flip = isDefaultFacingRight^isRight;
 		isFacingRight = isRight;
+		Debug.Log ("face to right " + isRight);
 	}
 			
 	void FaceRight(){
