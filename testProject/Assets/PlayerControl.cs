@@ -15,7 +15,7 @@ public class PlayerControl : MonoBehaviour {
 
 	private Vector3 originPosition;//3.348,0.35
 
-	private bool isFacingRight = true;
+	public bool isFacingRight = true;
 
 	Vector3 targetDirection;
 	Vector3 startPosition;
