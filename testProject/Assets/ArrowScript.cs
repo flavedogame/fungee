@@ -47,6 +47,10 @@ public class ArrowScript : MonoBehaviour, Observer {
 		}
 	}
 
+	public void StopMoving(){
+		isMoving = false;
+	}
+
 	public void OnNotify(){
 		//Debug.Log ("get notify");
 		if (!isWallForward ()) {

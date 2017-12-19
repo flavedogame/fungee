@@ -26,6 +26,8 @@ namespace Constants {
 		internal static AnimationTuple stopClimbAnimation = new AnimationTuple("isClimbing",false);
 		internal static AnimationTuple throwOverAnimation = new AnimationTuple("isThrowingOver",true);
 		internal static AnimationTuple stopThrowOverAnimation = new AnimationTuple("isThrowingOver",false);
+		internal static AnimationTuple deadAnimation = new AnimationTuple("isDead",true);
+		internal static AnimationTuple stopDeadAnimation = new AnimationTuple("isDead",false);
 		}
 }
 
@@ -36,16 +38,4 @@ public class AnimatorRunner {
 	}
 }
 
-public class Utility{
-	public static bool AlmostEqual(Vector3 v1,Vector3 v2){
-		float precision = 0.1f;
-		if (Mathf.Abs (v1.x - v2.x) > precision)
-			return false;
-		if (Mathf.Abs (v1.y - v2.y) > precision)
-			return false;
-		if (Mathf.Abs (v1.z - v2.z) > precision)
-			return false;
-		return true;
-	}
-}
 	

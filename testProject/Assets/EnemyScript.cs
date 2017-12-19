@@ -17,6 +17,9 @@ public class EnemyScript : MonoBehaviour, Observer {
 	}
 
 	public void OnNotify(){
+		if (enemyController.isDead) {
+			return;
+		}
 		if (IsAttacked ()) {
 			GetAttacked ();
 		} else {
@@ -48,6 +51,8 @@ public class EnemyScript : MonoBehaviour, Observer {
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if (enemyController.isDead) {
+			return;
+		}
 	}
 }

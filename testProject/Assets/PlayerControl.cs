@@ -5,6 +5,7 @@ using Constants;
 
 public class PlayerControl : MonoBehaviour {
 	public bool isDefaultFacingRight;
+	public bool isPlayer;
 	public float speed = 1.0f;
 	private StepManager stepManager;
 	public Transform gunTop;
@@ -12,6 +13,8 @@ public class PlayerControl : MonoBehaviour {
 	public Transform shootPointRight;
 	private Puppet2D_GlobalControl globalControl;
 	private Animator animator;
+	public bool isDead;
+	public Transform spineNode;
 
 	private Vector3 originPosition;//3.348,0.35
 
@@ -53,6 +56,12 @@ public class PlayerControl : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (isDead) {
+			return;
+		}
+		if (WillDead ()) {
+			Dead ();
+		}
 		if (isClimbingFinish) {
 			transform.position += targetDirection;
 			transform.position = CorrectedPosition (transform.position);
@@ -95,6 +104,41 @@ public class PlayerControl : MonoBehaviour {
 		AnimatorRunner.Run (animator, Constants.AnimationTuples.stopThrowOverAnimation);
 	}
 
+	public bool WillDead(){
+		if (isPlayer) {
+			
+			LayerMask mask = LayerMask.GetMask ("enemy");
+			return Physics2D.Raycast (new Vector2 (transform.position.x, transform.position.y), new Vector2 (isFacingRight ? 1 : -1, 0), 1f, mask);
+		} else {
+			LayerMask mask = LayerMask.GetMask ("weapon");
+			return Physics2D.Raycast (new Vector2 (transform.position.x, transform.position.y), new Vector2 (isFacingRight ? 1 : -1, 0), 0.1f, mask);
+		}
+	}
+
+	public void Dead(){
+		isDead = true;
+		if (isPlayer) {
+			LayerMask mask = LayerMask.GetMask ("enemy");
+			RaycastHit2D hit = Physics2D.Raycast (new Vector2 (transform.position.x, transform.position.y), new Vector2 (isFacingRight ? 1 : -1, 0), 1f, mask);
+			AnimatorRunner.Run (animator, Constants.AnimationTuples.deadAnimation);
+		} else {
+			
+			LayerMask mask = LayerMask.GetMask ("weapon");
+			RaycastHit2D hit = Physics2D.Raycast (new Vector2 (transform.position.x, transform.position.y), new Vector2 (isFacingRight ? 1 : -1,0), 0.1f, mask);
+
+			GameObject arrow = hit.collider.gameObject.transform.root.gameObject;
+			Debug.Log ("arrow"+arrow);
+			arrow.transform.parent = this.spineNode;
+			ArrowScript arrowScript = arrow.GetComponent<ArrowScript> ();
+			arrowScript.StopMoving ();
+			AnimatorRunner.Run (animator, Constants.AnimationTuples.deadAnimation);
+		}
+	}
+
+	public void FinishDead(){
+		GameObject.FindObjectOfType<SceneLoadManager> ().GameOver ();
+	}
+
 	public void Jump(){
 		isClimbing = true;
 		targetDirection = new Vector3 (0, 1, 0);
@@ -117,6 +161,8 @@ public class PlayerControl : MonoBehaviour {
 	}
 
 	public bool CanMoveLeft(){
+		if (!isPlayer)
+			return true;
 		LayerMask mask = LayerMask.GetMask ("Default");
 		LayerMask mask2 = LayerMask.GetMask ("weapon");
 		return !Physics2D.Raycast (new Vector2 (transform.position.x, transform.position.y), new Vector2 (-1, 0), 1f, mask) &&
@@ -129,6 +175,8 @@ public class PlayerControl : MonoBehaviour {
 	}
 
 	public bool CanMoveRight(){
+		if (!isPlayer)
+			return true;
 		LayerMask mask = LayerMask.GetMask ("Default");
 		LayerMask mask2 = LayerMask.GetMask ("weapon");
 		return !Physics2D.Raycast (new Vector2 (transform.position.x, transform.position.y), new Vector2 (1, 0), 1f, mask)&&
@@ -142,7 +190,7 @@ public class PlayerControl : MonoBehaviour {
 
 	public bool CanTakeInput(){
 		//Debug.Log (isMoving + " " + isShooting + " " + isClimbing);
-		return !isMoving && !isShooting && !isClimbing && !isFalling &&!isClimbingFinish;
+		return !isMoving && !isShooting && !isClimbing && !isFalling &&!isClimbingFinish && !isDead;
 	}
 
 	public void Fall(){
