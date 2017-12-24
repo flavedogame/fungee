@@ -7,8 +7,8 @@ public class test : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		NarrativeEvent testEvent = JSONAssembly.RunJSONFactoryForScene (1);
-		Debug.Log (testEvent.dialogues [0].characterType);
+		//NarrativeEvent testEvent = JSONAssembly.RunJSONFactoryForScene (1);
+		//Debug.Log (testEvent.dialogues [0].characterType);
 	}
 	
 	// Update is called once per frame

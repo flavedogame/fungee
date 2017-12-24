@@ -19,7 +19,7 @@ public class PanelManager : MonoBehaviour, IManager {
 		leftPanel = GameObject.Find ("LeftCharacterPanel").GetComponent<PanelConfig> ();
 
 		rightPanel = GameObject.Find ("RightCharacterPanel").GetComponent<PanelConfig> ();
-		currentEvent = JSONFactory.JSONAssembly.RunJSONFactoryForScene (1);
+		//currentEvent = /JSONFactory.JSONAssembly.RunJSONFactoryForScene (1);
 		currentState = ManagerState.Completed;
 		InitializePanels ();
 		Debug.Log (string.Format ("{0} status = {1}", GetType ().Name, currentState));

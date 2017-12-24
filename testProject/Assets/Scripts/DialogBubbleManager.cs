@@ -10,6 +10,7 @@ public class DialogBubbleManager : MonoBehaviour, IManager {
 	public List<PixelBubble> bubbles = new List<PixelBubble>();
 	public List<DialogueBubble> characters;
 	private DialogueBubble currentSpeaker;
+	public TextAsset text;
 
 	public bool loop;
 
@@ -23,7 +24,7 @@ public class DialogBubbleManager : MonoBehaviour, IManager {
 	public ManagerState currentState{ get; private set; }
 	public void BootSequence() {
 		Debug.Log (string.Format ("{0} is booting up", GetType ().Name));
-		currentEvent = JSONFactory.JSONAssembly.RunJSONFactoryForScene (1);
+		currentEvent = JSONFactory.JSONAssembly.RunJSONFactoryForText (text);
 		currentState = ManagerState.Completed;
 		UpdateDialogue ();
 		Debug.Log (string.Format ("{0} status = {1}", GetType ().Name, currentState));

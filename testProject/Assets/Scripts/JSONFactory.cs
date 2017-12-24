@@ -11,21 +11,21 @@ using LitJson;
 
 namespace JSONFactory{
 	class JSONAssembly{
-		private static Dictionary<int,  string> _resourceList = new Dictionary<int,string> {
-			{1,"/Resources/Event1.json"}
-		};
+		/*private static Dictionary<string,  string> _resourceList = new Dictionary<int,string> {
+			{"tv1","/Resources/TV1.json"}
+		};*/
 
-		private static string PathForScene(int sceneNumber){
+		/*private static string PathForScene(string key){
 			string resourcePathResult;
-			if (_resourceList.TryGetValue (sceneNumber, out resourcePathResult)) {
-				return _resourceList [sceneNumber];
+			if (_resourceList.TryGetValue (key, out resourcePathResult)) {
+				return _resourceList [key];
 			} else {
 				throw new Exception ("the scene number you provided is not inthe resource list");
 			}
-		}
+		}*/
 		private static bool IsValidJSON(string path) {
 			return (Path.GetExtension (path) == ".json") ? true : false;
-		}
+		}/*
 		public static NarrativeEvent RunJSONFactoryForScene(int sceneNumber) {
 			string resourcePath = PathForScene (sceneNumber);
 			if (IsValidJSON (resourcePath)) {
@@ -35,6 +35,12 @@ namespace JSONFactory{
 			} else {
 				throw new Exception ("the json is not valid");
 			}
+		}*/
+
+		public static NarrativeEvent RunJSONFactoryForText(TextAsset text) {
+			string jsonString = text.text;
+				NarrativeEvent narrativeEvent = JsonMapper.ToObject<NarrativeEvent> (jsonString);
+				return narrativeEvent;
 		}
 	}
 }
