@@ -8,6 +8,7 @@ public class DialogueBubble : MonoBehaviour {
 
 	public int layer;
 	public bool isOnLeft;
+	public Transform bubbleLocation;
 
 	private Text dialogText;
 
@@ -22,7 +23,7 @@ public class DialogueBubble : MonoBehaviour {
 		GameObject vBubbleObject = null;
 
 		vBubbleObject = Instantiate (Resources.Load ("bubbleDialog", typeof(GameObject))) as GameObject;
-		vBubbleObject.transform.position = transform.position + new Vector3(0f, 1.9f, 0f); 
+		vBubbleObject.transform.position = bubbleLocation.position; 
 		//Debug.Log ("layer " + layer);
 		SetLayerRecursively (vBubbleObject, layer);
 		if (isOnLeft) {
