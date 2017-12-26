@@ -4,7 +4,7 @@
       "characterType": 0,
       "dialogueText":"最近蘑尸的情况越来越不乐观了。",
 			"duration":3,
-			"anim":"talk_wave",
+			"anim":"talk_wave"
     },
     {
       "characterType": 1,
@@ -17,14 +17,14 @@
       "name": "Hero",
       "dialogueText":"有关部门表示暂无有效的控制蘑尸的手段。",
 			"duration":3,
-			"anim":"talk_wave",
+			"anim":"talk_wave"
     },
 		{
       "characterType": 0,
       "name": "Hero",
       "dialogueText":"建议人们看到蘑尸后第一时间射杀，以免蘑菇孢子进一步扩散。",
 			"duration":3,
-			"anim":"talk_wave",
+			"anim":"talk_wave"
     },
     {
       "characterType": 1,
@@ -38,7 +38,7 @@
       "name": "Hero",
       "dialogueText":"这里是国家电视台，我们将会持续跟进蘑尸的情况。",
 			"duration":3,
-			"anim":"talk_wave",
+			"anim":"talk_wave"
     },
     {
       "characterType": 1,

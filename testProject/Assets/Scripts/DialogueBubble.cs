@@ -21,6 +21,7 @@ public class DialogueBubble : MonoBehaviour {
 
 	private void SetLayerRecursively(GameObject obj, int newLayer){
 		obj.layer = newLayer;
+		Debug.Log("layer"+LayerMask.NameToLayer("character"));
 		foreach (Transform child in obj.transform) {
 			SetLayerRecursively (child.gameObject, newLayer);
 		}
@@ -34,11 +35,12 @@ public class DialogueBubble : MonoBehaviour {
 
 		vBubbleObject = Instantiate (Resources.Load ("bubbleDialog", typeof(GameObject))) as GameObject;
 		vBubbleObject.transform.position = bubbleLocation.position; 
+		vBubbleObject.transform.localScale = bubbleLocation.localScale;
 		//Debug.Log ("layer " + layer);
 		SetLayerRecursively (vBubbleObject, layer);
 		if (isOnLeft) {
 			Transform bubble = vBubbleObject.transform.Find ("bubble");
-			bubble.localScale = new Vector3 (-1f, 1f, 1f);
+			bubble.localScale = new Vector3 (-1f*bubble.localScale.x, bubble.localScale.y, 1f);
 		}
 
 		if (dialogue.bubbleType == DialogueBubbleType.Think) {
@@ -46,9 +48,17 @@ public class DialogueBubble : MonoBehaviour {
 		}
 			
 
-		if (dialogue.anim.Length>0) {
-			animator.SetBool (dialogue.anim, true);
-			lastAnim = dialogue.anim;
+		if (dialogue.anim!=null && dialogue.anim.Length>0) {
+			string[] anims = dialogue.anim.Split ('|');
+			foreach (string anim in anims) {
+				string[] animPair = anim.Split (',');
+				if (animPair.Length>1) {
+					animator.SetBool (animPair [0], false);
+				} else {
+					animator.SetBool (animPair [0], true);
+				}
+				lastAnim = animPair [0];
+			}
 		} else {
 		}
 		dialogText = vBubbleObject.transform.GetComponentInChildren<Text> ();

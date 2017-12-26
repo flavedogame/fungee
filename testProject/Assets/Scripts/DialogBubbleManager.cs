@@ -34,7 +34,16 @@ public class DialogBubbleManager : MonoBehaviour, IManager {
 		return currentEvent.dialogues [stepIndex].dialogueText.Length * 0.05f + 2f;
 	}
 
+	public void setDialog(TextAsset text){
+		currentEvent = JSONFactory.JSONAssembly.RunJSONFactoryForText (text);
+		UpdateDialogue ();
+	}
+
 	void Update(){
+		if (currentEvent == null) {
+			return;
+		}
+		Debug.Log ("currentEvent"+currentEvent);
 		if (stepIndex < currentEvent.dialogues.Count) {
 			stepTime += Time.deltaTime;
 			//currentEvent.dialogues [stepIndex].duration

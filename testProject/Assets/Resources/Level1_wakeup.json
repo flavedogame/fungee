@@ -1,0 +1,24 @@
+{
+  "dialogues": [
+    {
+      "characterType": 0,
+      "dialogueText":"这是什么鬼？蘑尸是什么？",
+			"duration":3,
+			"bubbleType":1
+    },
+    {
+      "characterType": 0,
+      "dialogueText":"我是谁，怎么。。什么都记不起来了",
+			"anim":"headUp,false",
+			"duration":3,
+			"bubbleType":1
+    },
+    {
+      "characterType": 0,
+      "name": "Hero",
+      "dialogueText":"暂且往前走走看吧",
+			"duration":3,
+			"bubbleType":1
+    }
+  ]
+}
