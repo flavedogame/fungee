@@ -18,6 +18,7 @@ public enum CharacterType{
 public struct Dialogue{
 	public CharacterType characterType;
 	public string name;
+	public string anim;
 	public string atlasImageName;
 	public string dialogueText;
 	public float duration;

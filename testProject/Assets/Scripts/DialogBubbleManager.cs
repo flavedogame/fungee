@@ -50,7 +50,7 @@ public class DialogBubbleManager : MonoBehaviour, IManager {
 	private void UpdateDialogue() {
 		Dialogue currentDialog = currentEvent.dialogues [stepIndex];
 		currentSpeaker = characters [(int)currentDialog.characterType];
-		currentSpeaker.ShowBubble (currentDialog.dialogueText, currentDialog.bubbleType, DurationOfDialogue());
+		currentSpeaker.ShowBubble (currentDialog, DurationOfDialogue());
 	}
 
 	void updateBubbleState() {
