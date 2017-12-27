@@ -45,7 +45,8 @@
       "name": "Ally",
       "dialogueText":"是的，嗯，记住第一时间射杀感染者。",
 			"anim":"talk_wave",
-			"duration":3
+			"duration":3,
+			"afterEvent":"ZoomOutTV"
     }
   ]
 }

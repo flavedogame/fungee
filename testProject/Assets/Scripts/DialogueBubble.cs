@@ -11,25 +11,26 @@ public class DialogueBubble : MonoBehaviour {
 	public Transform bubbleLocation;
 
 	Animator animator;
+	DialogueEvent dialogEvent;
 
 	private Text dialogText;
 	private string lastAnim;
 
+	Dialogue currentDialog;
+
 	void Start(){
-		animator = GetComponent<Animator> ();
 	}
 
 	private void SetLayerRecursively(GameObject obj, int newLayer){
 		obj.layer = newLayer;
-		Debug.Log("layer"+LayerMask.NameToLayer("character"));
+		//Debug.Log("layer"+LayerMask.NameToLayer("character"));
 		foreach (Transform child in obj.transform) {
 			SetLayerRecursively (child.gameObject, newLayer);
 		}
 	}
 	public void ShowBubble(Dialogue dialogue, float duration){
-		if (animator == null) {
-			animator = GetComponent<Animator> ();
-		}
+		animator = GetComponent<Animator> ();
+		dialogEvent = GameObject.FindObjectOfType<DialogueEvent> ();
 		//Debug.Log ("show bubble " + text + " with type " + type);
 		GameObject vBubbleObject = null;
 
@@ -42,7 +43,7 @@ public class DialogueBubble : MonoBehaviour {
 			Transform bubble = vBubbleObject.transform.Find ("bubble");
 			bubble.localScale = new Vector3 (-1f*bubble.localScale.x, bubble.localScale.y, 1f);
 		}
-
+		currentDialog = dialogue;
 		if (dialogue.bubbleType == DialogueBubbleType.Think) {
 			vBubbleObject.GetComponent<Bubble> ().UseThinkBubble ();
 		}
@@ -64,6 +65,7 @@ public class DialogueBubble : MonoBehaviour {
 		dialogText = vBubbleObject.transform.GetComponentInChildren<Text> ();
 		//dialogText.text = text;
 		StartCoroutine (AnimateText(dialogue.dialogueText));
+
 		Destroy (vBubbleObject, duration);
 	}
 
@@ -79,6 +81,9 @@ public class DialogueBubble : MonoBehaviour {
 
 		if (lastAnim!=null&&lastAnim.Length>0) {
 			animator.SetBool (lastAnim, false);
+		}
+		if (currentDialog.afterEvent != null) {
+			dialogEvent.TriggerEvent (currentDialog.afterEvent);
 		}
 		//Debug.Log ("hide bubble ");
 	}

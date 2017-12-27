@@ -7,7 +7,7 @@ public class SceneLoadManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		SceneManager.LoadScene (0, LoadSceneMode.Additive);
+		//SceneManager.LoadScene (0, LoadSceneMode.Additive);
 
 
 	}
@@ -18,6 +18,7 @@ public class SceneLoadManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+		//Debug.Log ("time" + Time.time);
+
 	}
 }

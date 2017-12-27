@@ -43,7 +43,7 @@ public class DialogBubbleManager : MonoBehaviour, IManager {
 		if (currentEvent == null) {
 			return;
 		}
-		Debug.Log ("currentEvent"+currentEvent);
+		//Debug.Log ("currentEvent"+currentEvent);
 		if (stepIndex < currentEvent.dialogues.Count) {
 			stepTime += Time.deltaTime;
 			//currentEvent.dialogues [stepIndex].duration
@@ -57,9 +57,11 @@ public class DialogBubbleManager : MonoBehaviour, IManager {
 	}
 
 	private void UpdateDialogue() {
-		Dialogue currentDialog = currentEvent.dialogues [stepIndex];
-		currentSpeaker = characters [(int)currentDialog.characterType];
-		currentSpeaker.ShowBubble (currentDialog, DurationOfDialogue());
+		if (stepIndex < currentEvent.dialogues.Count) {
+			Dialogue currentDialog = currentEvent.dialogues [stepIndex];
+			currentSpeaker = characters [(int)currentDialog.characterType];
+			currentSpeaker.ShowBubble (currentDialog, DurationOfDialogue ());
+		}
 	}
 
 	void updateBubbleState() {

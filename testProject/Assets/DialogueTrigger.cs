@@ -6,6 +6,7 @@ public class DialogueTrigger : MonoBehaviour {
 	public DialogBubbleManager dialogManager;
 	public List<DialogueBubble> characters;
 	public TextAsset text;
+	public FlowController flowController;
 
 	bool isTriggered;
 	// Use this for initialization
@@ -15,7 +16,7 @@ public class DialogueTrigger : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (!isTriggered) {
+		if (!isTriggered && flowController.finishFirstTV) {
 			isTriggered = true;
 			dialogManager.characters = new List<DialogueBubble> (characters);
 

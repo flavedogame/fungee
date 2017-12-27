@@ -23,4 +23,6 @@ public struct Dialogue{
 	public string dialogueText;
 	public float duration;
 	public DialogueBubbleType bubbleType;
+	public string afterEvent;
+	public string beforeEvent;
 }
