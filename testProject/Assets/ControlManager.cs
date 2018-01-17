@@ -6,15 +6,28 @@ public class ControlManager : MonoBehaviour {
 
 	public PlayerControl playerControl;
 	public int step = 0;
+	TVController tvController;
 	// Use this for initialization
 	void Start () {
-		
+		tvController = GameObject.Find ("tv camera test").GetComponent<TVController>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		if (!playerControl.CanTakeInput ()) {
 			return;
+		}
+		if (Input.touchCount >= 1) {
+			Vector2 vTouchPos = Input.GetTouch (0).position;
+			Ray ray = Camera.main.ScreenPointToRay (vTouchPos);
+			RaycastHit vHit;
+			if (Physics.Raycast (ray.origin, ray.direction, out vHit)) {
+				Debug.Log ("touch on " + vHit);
+				if (vHit.transform.tag == "tv") {
+					Debug.Log ("open tv");
+					tvController.Zoomin ();
+				}
+			}
 		}
 		if (Input.GetKeyDown ("left")) {
 			playerControl.MoveLeft ();

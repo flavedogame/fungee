@@ -16,8 +16,10 @@ public class DialogueTrigger : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (!isTriggered && flowController.finishFirstTV) {
+		if (!isTriggered && !flowController.finishFirstTV) {
+			Debug.Log ("trigger");
 			isTriggered = true;
+			flowController.finishFirstTV = true;
 			dialogManager.characters = new List<DialogueBubble> (characters);
 
 			dialogManager.setDialog (text);

@@ -62,6 +62,19 @@ public class DialogueBubble : MonoBehaviour {
 			}
 		} else {
 		}
+
+		if (dialogue.beforeEvent != null && dialogue.beforeEvent.Length > 0) {
+			string[] events = dialogue.beforeEvent.Split ('|');
+			foreach (string e in events) {
+				string[] eventPair = e.Split (':');
+				if (eventPair.Length>1) {
+					
+					((MonoBehaviour)GetComponent (eventPair [1])).Invoke (eventPair [2],0.1f);
+				} else {
+					dialogEvent.TriggerEvent (eventPair [0]);
+				}
+			}
+		}
 		dialogText = vBubbleObject.transform.GetComponentInChildren<Text> ();
 		//dialogText.text = text;
 		StartCoroutine (AnimateText(dialogue.dialogueText));

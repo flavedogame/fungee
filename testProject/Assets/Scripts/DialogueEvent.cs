@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DialogueEvent : MonoBehaviour {
 	FlowController flowController;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -18,9 +19,11 @@ public class DialogueEvent : MonoBehaviour {
 		Debug.Log ("zoom out tv");
 		GameObject go= GameObject.Find ("tv camera test");
 		if(go!=null && go.active){
-		Animator animator = go.GetComponent<Animator> ();
-		animator.SetTrigger ("zoomout");
-		//go.SetActive(false);
+			TVController tvController = go.GetComponent<TVController> ();
+			tvController.Zoomout ();
+
+		//Animator animator = go.GetComponent<Animator> ();
+		//animator.SetTrigger ("zoomout");
 		}
 	}
 

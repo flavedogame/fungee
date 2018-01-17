@@ -1,0 +1,19 @@
+{
+  "dialogues": [
+    {
+      "characterType": 1,
+      "dialogueText":"斑斑？！",
+			"duration":3,
+			"beforeEvent":"1:PlayerControl:MoveLeft"
+    },
+	{
+      "characterType": 0,
+      "dialogueText":"这是谁……",
+		"bubbleType":1
+    },
+    {
+      "characterType": 1,
+      "dialogueText":"斑斑，太好了，你没死！"
+    }
+  ]
+}

@@ -16,7 +16,7 @@ public class PlayerControl : MonoBehaviour {
 	public bool isDead;
 	public Transform spineNode;
 
-	private Vector3 originPosition;//3.348,0.35
+	private Vector3 originPosition;//3.33,0.35
 
 	public bool isFacingRight = true;
 

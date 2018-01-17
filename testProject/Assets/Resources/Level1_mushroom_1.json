@@ -1,0 +1,19 @@
+{
+  "dialogues": [
+    {
+      "characterType": 0,
+      "dialogueText":"哟你醒啦！",
+			"duration":3
+    },
+	{
+      "characterType": 1,
+      "dialogueText":"谁在说话……",
+			//rotate around
+		"bubbleType":1
+    },
+    {
+      "characterType": 1,
+      "dialogueText":"啊啊啊啊啊这是个什么东西？？？？！！！！",
+    }
+  ]
+}
