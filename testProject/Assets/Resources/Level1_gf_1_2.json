@@ -12,7 +12,8 @@
     {
       "characterType": 0,
       "dialogueText":"为啥呢……",
-		"bubbleType":1
+		"bubbleType":1,
+			"beforeEvent":"1:PlayerControl:FaceLeft"
     },
     {
       "characterType": 1,
@@ -21,7 +22,7 @@
     {
       "characterType": 1,
       "dialogueText":"对不起……斑斑……",
-			"beforeEvent":"Shoot"
+			"beforeEvent":"1:PlayerControl:Shoot"
     }
   ]
 }

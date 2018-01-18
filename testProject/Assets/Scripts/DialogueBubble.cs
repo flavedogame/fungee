@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class DialogueBubble : MonoBehaviour {
 
 	public int layer;
-	public bool isOnLeft;
+	public bool isOnRight;
 	public Transform bubbleLocation;
 
 	Animator animator;
@@ -37,9 +37,10 @@ public class DialogueBubble : MonoBehaviour {
 		vBubbleObject = Instantiate (Resources.Load ("bubbleDialog", typeof(GameObject))) as GameObject;
 		vBubbleObject.transform.position = bubbleLocation.position; 
 		vBubbleObject.transform.localScale = bubbleLocation.localScale;
+		vBubbleObject.transform.parent = transform;
 		//Debug.Log ("layer " + layer);
 		SetLayerRecursively (vBubbleObject, layer);
-		if (isOnLeft) {
+		if (isOnRight) {
 			Transform bubble = vBubbleObject.transform.Find ("bubble");
 			bubble.localScale = new Vector3 (-1f*bubble.localScale.x, bubble.localScale.y, 1f);
 		}

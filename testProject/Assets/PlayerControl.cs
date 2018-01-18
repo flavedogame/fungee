@@ -279,10 +279,10 @@ public class PlayerControl : MonoBehaviour {
 		Debug.Log ("face to right " + isRight);
 	}
 			
-	void FaceRight(){
+	public void FaceRight(){
 		Face (true);
 	}
-	void FaceLeft(){
+	public void FaceLeft(){
 		Face (false);
 	}
 }
