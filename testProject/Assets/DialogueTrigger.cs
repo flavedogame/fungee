@@ -7,6 +7,15 @@ public class DialogueTrigger : MonoBehaviour {
 	public List<DialogueBubble> characters;
 	public TextAsset text;
 	public FlowController flowController;
+	public bool canTriggerRepeatedly;
+
+//	public enum DialogTriggerType{
+//		hit, achievement
+//	}
+
+	public int hitMask;
+	public string achievement;
+	public bool isTriggeredByInteract;
 
 	bool isTriggered;
 	// Use this for initialization
