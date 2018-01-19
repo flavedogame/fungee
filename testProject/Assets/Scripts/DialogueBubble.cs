@@ -34,10 +34,7 @@ public class DialogueBubble : MonoBehaviour {
 		//Debug.Log ("show bubble " + text + " with type " + type);
 		GameObject vBubbleObject = null;
 
-		vBubbleObject = Instantiate (Resources.Load ("bubbleDialog", typeof(GameObject))) as GameObject;
-		vBubbleObject.transform.position = bubbleLocation.position; 
-		vBubbleObject.transform.localScale = bubbleLocation.localScale;
-		vBubbleObject.transform.parent = transform;
+		vBubbleObject = Bubble.CreateBubble (dialogue.bubbleType, bubbleLocation);
 		//Debug.Log ("layer " + layer);
 		SetLayerRecursively (vBubbleObject, layer);
 		if (isOnRight) {
@@ -45,9 +42,6 @@ public class DialogueBubble : MonoBehaviour {
 			bubble.localScale = new Vector3 (-1f*bubble.localScale.x, bubble.localScale.y, 1f);
 		}
 		currentDialog = dialogue;
-		if (dialogue.bubbleType == DialogueBubbleType.Think) {
-			vBubbleObject.GetComponent<Bubble> ().UseThinkBubble ();
-		}
 			
 
 		if (dialogue.anim!=null && dialogue.anim.Length>0) {
