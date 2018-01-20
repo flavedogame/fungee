@@ -35,6 +35,7 @@ public class DialogBubbleManager : MonoBehaviour, IManager {
 	}
 
 	public void setDialog(TextAsset text){
+		stepIndex = 0;
 		currentEvent = JSONFactory.JSONAssembly.RunJSONFactoryForText (text);
 		UpdateDialogue ();
 	}

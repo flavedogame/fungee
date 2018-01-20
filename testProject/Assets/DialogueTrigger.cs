@@ -15,6 +15,9 @@ public class DialogueTrigger : MonoBehaviour {
 
 	public int hitMask;
 	public string achievement;
+
+	//todo: better way to list all tags
+	public string collisionTag;
 	public bool isTriggeredByInteract;
 
 	bool isTriggered;
@@ -25,13 +28,28 @@ public class DialogueTrigger : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (!isTriggered && !flowController.finishFirstTV) {
-			Debug.Log ("trigger");
-			isTriggered = true;
-			flowController.finishFirstTV = true;
-			dialogManager.characters = new List<DialogueBubble> (characters);
+//		if (!isTriggered && !flowController.finishFirstTV) {
+//			Debug.Log ("trigger");
+//			isTriggered = true;
+//			flowController.finishFirstTV = true;
+//			setDialog ();
+//		}
+	}
 
-			dialogManager.setDialog (text);
+	void setDialog(){
+		dialogManager.characters = new List<DialogueBubble> (characters);
+
+		dialogManager.setDialog (text);
+		if (!canTriggerRepeatedly) {
+			Destroy (this.gameObject);
+		}
+	}
+
+	void OnTriggerEnter2D(Collider2D col){
+		Debug.Log ("trigger" + collisionTag + " " + col.gameObject.tag);
+		if (collisionTag.Length > 0 && col.gameObject.tag == collisionTag) {
+			//todo: check achievement
+			setDialog();
 		}
 	}
 }
