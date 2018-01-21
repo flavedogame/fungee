@@ -18,9 +18,9 @@ public class DialogueTrigger : MonoBehaviour {
 
 	//todo: better way to list all tags
 	public string collisionTag;
-	public bool isTriggeredByInteract;
+	public bool isTriggeredByTouch;
 
-	bool isTriggered;
+	bool hasTriggered;
 	// Use this for initialization
 	void Start () {
 		
@@ -28,6 +28,22 @@ public class DialogueTrigger : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+		if (isTriggeredByTouch) {
+			if (Input.touchCount > 0 && Input.GetTouch (0).phase == TouchPhase.Ended) {
+				
+				Vector2 vTouchPos = Input.GetTouch (0).position;
+				Debug.Log ("touch!"+vTouchPos);
+				Ray ray = Camera.main.ScreenPointToRay (vTouchPos);
+				RaycastHit2D hit = Physics2D.GetRayIntersection (ray);
+				Debug.Log ("hit!" + hit.collider.gameObject+ " " + gameObject);
+				if (hit.collider.gameObject == gameObject) {
+					Debug.Log ("set dialog");
+					setDialog ();
+				}
+			}
+		}
+
 //		if (!isTriggered && !flowController.finishFirstTV) {
 //			Debug.Log ("trigger");
 //			isTriggered = true;
@@ -37,16 +53,18 @@ public class DialogueTrigger : MonoBehaviour {
 	}
 
 	void setDialog(){
+		//check if dialog happening
 		dialogManager.characters = new List<DialogueBubble> (characters);
 
 		dialogManager.setDialog (text);
 		if (!canTriggerRepeatedly) {
-			Destroy (this.gameObject);
+			Destroy (this);
+			return;
 		}
+		hasTriggered = true;
 	}
 
 	void OnTriggerEnter2D(Collider2D col){
-		Debug.Log ("trigger" + collisionTag + " " + col.gameObject.tag);
 		if (collisionTag.Length > 0 && col.gameObject.tag == collisionTag) {
 			//todo: check achievement
 			setDialog();
