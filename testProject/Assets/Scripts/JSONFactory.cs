@@ -54,5 +54,18 @@ namespace JSONFactory
 		Dictionary<string,Achievement> achievementDictionary = JsonMapper.ToObject<Dictionary<string,Achievement>> (jsonString);
 		return achievementDictionary;
 		}
+
+	public static void SaveAchievementToJson (Dictionary<string,Achievement> achievements)
+	{
+		JsonData json = JsonMapper.ToJson (achievements);
+		Debug.Log ("json" + json.ToString());
+			Debug.Log ("file path " + Application.dataPath);
+		File.WriteAllText(Application.dataPath+"/Resources/achievement.json",json.ToString());
+		//	string jsonString = text.text;
+		//	Dictionary<string,Achievement> achievementDictionary = JsonMapper.ToObject<Dictionary<string,Achievement>> (jsonString);
+		//	return achievementDictionary;
 	}
+	}
+
+
 }
