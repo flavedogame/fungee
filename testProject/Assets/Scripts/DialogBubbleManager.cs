@@ -24,7 +24,7 @@ public class DialogBubbleManager : MonoBehaviour, IManager {
 	public ManagerState currentState{ get; private set; }
 	public void BootSequence() {
 		Debug.Log (string.Format ("{0} is booting up", GetType ().Name));
-		currentEvent = JSONFactory.JSONAssembly.RunJSONFactoryForText (text);
+		currentEvent = JSONFactory.JSONAssembly.RunJSONFactoryForDialog (text);
 		currentState = ManagerState.Completed;
 		UpdateDialogue ();
 		Debug.Log (string.Format ("{0} status = {1}", GetType ().Name, currentState));
@@ -36,7 +36,7 @@ public class DialogBubbleManager : MonoBehaviour, IManager {
 
 	public void setDialog(TextAsset text){
 		stepIndex = 0;
-		currentEvent = JSONFactory.JSONAssembly.RunJSONFactoryForText (text);
+		currentEvent = JSONFactory.JSONAssembly.RunJSONFactoryForDialog (text);
 		UpdateDialogue ();
 	}
 

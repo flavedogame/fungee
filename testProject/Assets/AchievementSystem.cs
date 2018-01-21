@@ -4,12 +4,19 @@ using UnityEngine;
 
 public class AchievementSystem : MonoBehaviour {
 
-	//Dictionary<string,int> achievement;
+	public TextAsset text;
+
+	Dictionary<string,Achievement> achievements;
 
 	// Use this for initialization
 	void Start () {
+		achievements = JSONFactory.JSONAssembly.RunJSONFactoryForAchievement (text);
+		Debug.Log ("achievement " + achievements ["finishFirstTV"].finishValue);
+		//put achievement name into a list
 		//read achievement from json
 	}
+
+
 
 	//when quit game, save achievement
 

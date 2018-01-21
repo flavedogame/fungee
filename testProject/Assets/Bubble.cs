@@ -31,7 +31,7 @@ public class Bubble : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		Debug.Log (parentTransform.position + " life " + parentOriginPosition + " is " + transform.position);
+		//Debug.Log (parentTransform.position + " life " + parentOriginPosition + " is " + transform.position);
 		Vector3 offset = parentTransform.position - parentOriginPosition;
 		parentOriginPosition = parentTransform.position;
 		transform.position += offset;

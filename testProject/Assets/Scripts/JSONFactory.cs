@@ -9,8 +9,10 @@ using LitJson;
 //take in scene number, output Narrative Event
 //only NarrativeManager should be able to use this script
 
-namespace JSONFactory{
-	class JSONAssembly{
+namespace JSONFactory
+{
+	class JSONAssembly
+	{
 		/*private static Dictionary<string,  string> _resourceList = new Dictionary<int,string> {
 			{"tv1","/Resources/TV1.json"}
 		};*/
@@ -23,9 +25,11 @@ namespace JSONFactory{
 				throw new Exception ("the scene number you provided is not inthe resource list");
 			}
 		}*/
-		private static bool IsValidJSON(string path) {
+		private static bool IsValidJSON (string path)
+		{
 			return (Path.GetExtension (path) == ".json") ? true : false;
-		}/*
+		}
+/*
 		public static NarrativeEvent RunJSONFactoryForScene(int sceneNumber) {
 			string resourcePath = PathForScene (sceneNumber);
 			if (IsValidJSON (resourcePath)) {
@@ -37,10 +41,18 @@ namespace JSONFactory{
 			}
 		}*/
 
-		public static NarrativeEvent RunJSONFactoryForText(TextAsset text) {
+		public static NarrativeEvent RunJSONFactoryForDialog (TextAsset text)
+		{
 			string jsonString = text.text;
-				NarrativeEvent narrativeEvent = JsonMapper.ToObject<NarrativeEvent> (jsonString);
-				return narrativeEvent;
+			NarrativeEvent narrativeEvent = JsonMapper.ToObject<NarrativeEvent> (jsonString);
+			return narrativeEvent;
+		}
+
+	public static Dictionary<string,Achievement> RunJSONFactoryForAchievement (TextAsset text)
+		{
+			string jsonString = text.text;
+		Dictionary<string,Achievement> achievementDictionary = JsonMapper.ToObject<Dictionary<string,Achievement>> (jsonString);
+		return achievementDictionary;
 		}
 	}
 }
