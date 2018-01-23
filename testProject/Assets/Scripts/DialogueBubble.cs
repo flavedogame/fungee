@@ -57,6 +57,7 @@ public class DialogueBubble : MonoBehaviour {
 			}
 		} else {
 		}
+		//1:component:method(p1,p2..
 
 		if (dialogue.beforeEvent != null && dialogue.beforeEvent.Length > 0) {
 			string[] events = dialogue.beforeEvent.Split ('|');
@@ -90,8 +91,21 @@ public class DialogueBubble : MonoBehaviour {
 		if (lastAnim!=null&&lastAnim.Length>0) {
 			animator.SetBool (lastAnim, false);
 		}
-		if (currentDialog.afterEvent != null) {
-			dialogEvent.TriggerEvent (currentDialog.afterEvent);
+		if (currentDialog.afterEvent != null && currentDialog.afterEvent.Length > 0) {
+			string[] events = currentDialog.afterEvent.Split ('|');
+			foreach (string e in events) {
+				string[] eventPair = e.Split (':');
+				if (eventPair.Length>1) {
+					((MonoBehaviour)GetComponent (eventPair [1])).Invoke (eventPair [2],0.1f);
+				} else {
+					string[] methodAndParam = eventPair [0].Split ('(');
+					string[] param = null;
+					if (methodAndParam.Length > 1) {
+						param = methodAndParam [1].Split (',');
+					}
+					dialogEvent.SendMessage (methodAndParam [0], param);
+				}
+			}
 		}
 		//Debug.Log ("hide bubble ");
 	}

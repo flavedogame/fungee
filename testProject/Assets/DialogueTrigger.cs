@@ -28,6 +28,10 @@ public class DialogueTrigger : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (!isTriggeredByTouch && collisionTag.Length == 0 && achievement.Length == 0) {
+			//always trigger
+			setDialog ();
+		}
 
 		if (isTriggeredByTouch) {
 			if (Input.touchCount > 0 && Input.GetTouch (0).phase == TouchPhase.Ended) {

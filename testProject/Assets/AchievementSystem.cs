@@ -12,9 +12,9 @@ public class AchievementSystem : MonoBehaviour {
 	void Start () {
 		achievements = JSONFactory.JSONAssembly.RunJSONFactoryForAchievement (text);
 		Debug.Log ("achievement " + achievements ["finishFirstTV"].finishValue);
-		//AddAchievement ("finishFirstTV", 1);
 		ResetAchievement();
-		SaveAchievement ();
+		AddAchievement ("finishFirstTV", 1);
+		//SaveAchievement ();
 		//put achievement name into a list
 		//read achievement from json
 	}
@@ -25,16 +25,22 @@ public class AchievementSystem : MonoBehaviour {
 			ModifyAchievement (name, 0);
 			//set to default instead of 0?
 		}
+		SaveAchievement ();
 	}
 
-	void AddAchievement(string name, int addValue){
+	public void AddAchievement(string name, int addValue){
 		ModifyAchievement(name, achievements[name].currentValue+addValue);
 	}
 
 	void ModifyAchievement(string name, int value) {
+		//check if name exist
+		if (!achievements.ContainsKey(name)) {
+			Debug.LogError ("achievement not exist " + name);
+		}
 		Achievement achievement = achievements [name];
 		achievement.currentValue = value;
 		achievements [name] = achievement;
+		SaveAchievement ();
 	}
 
 	void SaveAchievement(){

@@ -5,7 +5,7 @@
       "dialogueText":"最近蘑尸的情况越来越不乐观了。",
 			"duration":1,
 			"anim":"talk_wave",
-			"afterEvent":"ZoomOutTV"
+			"afterEvent":"ZoomOutTV|AddAchievement(finishFirstTV,1"
     },
     {
       "characterType": 1,
@@ -47,7 +47,7 @@
       "dialogueText":"是的，嗯，记住第一时间射杀感染者。",
 			"anim":"talk_wave",
 			"duration":3,
-			"afterEvent":"ZoomOutTV"
+			"afterEvent":"ZoomOutTV|AddAchievement(finishFirstTV,1"
     }
   ]
 }
