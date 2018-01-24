@@ -4,8 +4,7 @@
       "characterType": 0,
       "dialogueText":"最近蘑尸的情况越来越不乐观了。",
 			"duration":1,
-			"anim":"talk_wave",
-			"afterEvent":"ZoomOutTV|AddAchievement(finishFirstTV,1"
+			"anim":"talk_wave"
     },
     {
       "characterType": 1,

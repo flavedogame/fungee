@@ -31,7 +31,6 @@ public class DialogueTrigger : MonoBehaviour {
 			return true;
 		string[] achievementList = achievements.Split ('|');
 		foreach (string achievement in achievementList) {
-			Debug.Log ("achievement " + achievement.Length);
 			string[] achievementMightWithNot = achievement.Split ('!');
 			if (achievementMightWithNot.Length > 1) {
 				if (AchievementSystem.Instance.HasAchievementFinished (achievementMightWithNot [1])) {
@@ -49,6 +48,7 @@ public class DialogueTrigger : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		//here every trigger will test every frame.. too heavy?
 		if (!isTriggeredByTouch && collisionTag.Length == 0 && DoesConformAchievement()) {
 			//achievement trigger
 			setDialog ();

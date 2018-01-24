@@ -18,7 +18,10 @@ public class DialogueBubble : MonoBehaviour {
 
 	Dialogue currentDialog;
 
+	float dialogSpeed;
+
 	void Start(){
+		dialogSpeed = DialogBubbleManager.Instance.dialogSpeed;
 	}
 
 	private void SetLayerRecursively(GameObject obj, int newLayer){
@@ -81,8 +84,10 @@ public class DialogueBubble : MonoBehaviour {
 	IEnumerator AnimateText(string dialogueText){
 		dialogText.text = "";
 		foreach (char letter in dialogueText) {
-			dialogText.text += letter;
-			yield return new WaitForSeconds (0.05f);
+			if (dialogText) {
+				dialogText.text += letter;
+				yield return new WaitForSeconds (dialogSpeed);
+			}
 		}
 	}
 
@@ -104,6 +109,7 @@ public class DialogueBubble : MonoBehaviour {
 						param = methodAndParam [1].Split (',');
 					}
 					dialogEvent.SendMessage (methodAndParam [0], param);
+					//Debug.Log ("hide bubble with after event " + currentDialog.afterEvent); 
 				}
 			}
 		}

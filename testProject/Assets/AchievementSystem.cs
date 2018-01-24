@@ -13,9 +13,9 @@ public class AchievementSystem : Singleton<AchievementSystem> {
 	// Use this for initialization
 	void Start () {
 		achievements = JSONFactory.JSONAssembly.RunJSONFactoryForAchievement (text);
-		Debug.Log ("achievement " + achievements ["finishFirstTV"].finishValue);
+		//Debug.Log ("achievement " + achievements ["finishFirstTV"].finishValue);
 		ResetAchievement();
-		AddAchievement ("finishFirstTV", 1);
+		//AddAchievement ("finishFirstTV", 1);
 		//SaveAchievement ();
 		//put achievement name into a list
 		//read achievement from json
@@ -31,7 +31,6 @@ public class AchievementSystem : Singleton<AchievementSystem> {
 	}
 
 	public Achievement GetAchievement(string name) {
-		Debug.Log ("ACHIEVEMENT " + achievements);
 		if (!achievements.ContainsKey(name)) {
 			Debug.LogError ("achievement not exist " + name);
 		}

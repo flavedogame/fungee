@@ -4,13 +4,15 @@ using UnityEngine;
 using JSONFactory;
 using AssemblyCSharp;
 
-public class DialogBubbleManager : MonoBehaviour, IManager {
+public class DialogBubbleManager : Singleton<DialogBubbleManager>, IManager {
 
 	public GameObject vCurrentBubble = null;
 	public List<PixelBubble> bubbles = new List<PixelBubble>();
 	public List<DialogueBubble> characters;
 	private DialogueBubble currentSpeaker;
 	public TextAsset text;
+	public float dialogSpeed;
+	public float dialogSpeedOffset;
 
 	public bool loop;
 
@@ -31,10 +33,13 @@ public class DialogBubbleManager : MonoBehaviour, IManager {
 	}
 
 	float DurationOfDialogue() {
-		return currentEvent.dialogues [stepIndex].dialogueText.Length * 0.05f + 2f;
+		return currentEvent.dialogues [stepIndex].dialogueText.Length * dialogSpeed + dialogSpeedOffset;
 	}
 
 	public void setDialog(TextAsset text){
+		if (currentEvent != null) {
+			Debug.LogError ("start a dialog while another one is showing. do something!");
+		}
 		stepIndex = 0;
 		currentEvent = JSONFactory.JSONAssembly.RunJSONFactoryForDialog (text);
 		UpdateDialogue ();
@@ -74,6 +79,7 @@ public class DialogBubbleManager : MonoBehaviour, IManager {
 					stepIndex = 0;
 				} else {
 					ConversationEnd ();
+					return;
 				}
 			}
 			UpdateDialogue ();
@@ -81,6 +87,9 @@ public class DialogBubbleManager : MonoBehaviour, IManager {
 		}
 	}
 
-	void ConversationEnd(){}
+	void ConversationEnd(){
+		//Debug.Log ("conversation end");
+		currentEvent = null;
+	}
 
 }
