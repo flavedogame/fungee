@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AchievementSystem : MonoBehaviour {
+public class AchievementSystem : Singleton<AchievementSystem> {
+
+	protected AchievementSystem(){}
 
 	public TextAsset text;
 
@@ -26,6 +28,19 @@ public class AchievementSystem : MonoBehaviour {
 			//set to default instead of 0?
 		}
 		SaveAchievement ();
+	}
+
+	public Achievement GetAchievement(string name) {
+		Debug.Log ("ACHIEVEMENT " + achievements);
+		if (!achievements.ContainsKey(name)) {
+			Debug.LogError ("achievement not exist " + name);
+		}
+		return achievements [name];
+	}
+
+	public bool HasAchievementFinished(string name){
+		Achievement a = GetAchievement (name);
+		return (a.currentValue >= a.finishValue);
 	}
 
 	public void AddAchievement(string name, int addValue){

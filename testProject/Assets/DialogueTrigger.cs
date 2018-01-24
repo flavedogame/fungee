@@ -14,7 +14,7 @@ public class DialogueTrigger : MonoBehaviour {
 //	}
 
 	public int hitMask;
-	public string achievement;
+	public string achievements;
 
 	//todo: better way to list all tags
 	public string collisionTag;
@@ -25,11 +25,32 @@ public class DialogueTrigger : MonoBehaviour {
 	void Start () {
 		
 	}
+
+	bool DoesConformAchievement() {
+		if (achievements.Length == 0)
+			return true;
+		string[] achievementList = achievements.Split ('|');
+		foreach (string achievement in achievementList) {
+			Debug.Log ("achievement " + achievement.Length);
+			string[] achievementMightWithNot = achievement.Split ('!');
+			if (achievementMightWithNot.Length > 1) {
+				if (AchievementSystem.Instance.HasAchievementFinished (achievementMightWithNot [1])) {
+					return false;
+				}
+			} else {
+				if (!AchievementSystem.Instance.HasAchievementFinished (achievementMightWithNot [0])) {
+					return false;
+				}
+			}
+
+		}
+		return true;
+	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (!isTriggeredByTouch && collisionTag.Length == 0 && achievement.Length == 0) {
-			//always trigger
+		if (!isTriggeredByTouch && collisionTag.Length == 0 && DoesConformAchievement()) {
+			//achievement trigger
 			setDialog ();
 		}
 

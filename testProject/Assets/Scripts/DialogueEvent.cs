@@ -35,7 +35,7 @@ public class DialogueEvent : MonoBehaviour {
 			return;
 		}
 		Debug.Log ("add achievement " + p[0]+" "+p[1]);
-		achievementSystem.AddAchievement (p [0], int.Parse (p [1]));
+		AchievementSystem.Instance.AddAchievement (p [0], int.Parse (p [1]));
 	}
 
 	// Update is called once per frame
