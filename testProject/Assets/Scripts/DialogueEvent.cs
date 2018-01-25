@@ -34,7 +34,7 @@ public class DialogueEvent : MonoBehaviour {
 			Debug.LogError ("format not correct");
 			return;
 		}
-		Debug.Log ("add achievement " + p[0]+" "+p[1]);
+		Debug.Log ("dialog event add achievement " + p[0]+" "+p[1]);
 		AchievementSystem.Instance.AddAchievement (p [0], int.Parse (p [1]));
 	}
 

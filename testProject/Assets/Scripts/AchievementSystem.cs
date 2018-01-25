@@ -24,7 +24,8 @@ public class AchievementSystem : Singleton<AchievementSystem> {
 	void ResetAchievement(){
 		List<string> names = new List<string> (achievements.Keys);
 		foreach (string name in names) {
-			ModifyAchievement (name, 0);
+			Debug.Log ("reset achievement " + name);
+			ModifyAchievement (name, 0,false);
 			//set to default instead of 0?
 		}
 		SaveAchievement ();
@@ -43,10 +44,11 @@ public class AchievementSystem : Singleton<AchievementSystem> {
 	}
 
 	public void AddAchievement(string name, int addValue){
+		Debug.Log ("add achievement " + name +" "+addValue);
 		ModifyAchievement(name, achievements[name].currentValue+addValue);
 	}
 
-	void ModifyAchievement(string name, int value) {
+	void ModifyAchievement(string name, int value, bool shouldSave = true) {
 		//check if name exist
 		if (!achievements.ContainsKey(name)) {
 			Debug.LogError ("achievement not exist " + name);
@@ -54,7 +56,9 @@ public class AchievementSystem : Singleton<AchievementSystem> {
 		Achievement achievement = achievements [name];
 		achievement.currentValue = value;
 		achievements [name] = achievement;
-		SaveAchievement ();
+		if (shouldSave) {
+			SaveAchievement ();
+		}
 	}
 
 	void SaveAchievement(){
