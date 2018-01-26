@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class TVController : MonoBehaviour {
 
-	FlowController flowController;
 	bool isZoomout;
 	bool isZoomin;
 	Rect zoomStart;
@@ -12,10 +11,9 @@ public class TVController : MonoBehaviour {
 	float startZoomTime;
 	Camera thisCamera;
 	float zoomDuration  = 0.3f;
-	bool isZoomedIn = true;
+	public bool isZoomedIn = true;
 	// Use this for initialization
 	void Start () {
-		flowController = GameObject.FindObjectOfType<FlowController> ();
 		thisCamera = GetComponent<Camera> ();
 	}
 	
@@ -24,13 +22,10 @@ public class TVController : MonoBehaviour {
 		
 		if (isZoomout||isZoomin) {
 			if (Time.time >= startZoomTime + zoomDuration) {
-
-				thisCamera.enabled = false;
 				if (isZoomout) {
 					FinishZoomoutTV ();
 				}
-
-				isZoomout = false;
+				isZoomin = isZoomout = false;
 			}
 			float t = (Time.time - startZoomTime)/zoomDuration;
 			thisCamera.rect = new Rect (Mathf.SmoothStep (zoomStart.x, zoomTarget.x, t),
@@ -43,9 +38,10 @@ public class TVController : MonoBehaviour {
 
 	public void Zoomout(){
 		isZoomout = true;
+		isZoomin = false;
+		isZoomedIn = false;
 		startZoomTime = Time.time;
 		zoomStart = thisCamera.rect;
-
 		Vector3 screenPos = Camera.main.WorldToScreenPoint (transform.position);
 		Debug.Log ("screen pos is " + screenPos);
 		Debug.Log ("screen pos after is " + screenPos.x/Screen.width);
@@ -56,11 +52,9 @@ public class TVController : MonoBehaviour {
 
 	public void Zoomin(){
 		Debug.Log ("is zoomed in" + isZoomedIn);
-		if (isZoomedIn) {
-			return;
-		}
-		isZoomedIn = true;
 		isZoomin = true;
+		isZoomout = false;
+		isZoomedIn = true;
 		thisCamera.enabled = true;
 		startZoomTime = Time.time;
 		zoomStart = thisCamera.rect;
@@ -73,7 +67,6 @@ public class TVController : MonoBehaviour {
 
 		isZoomedIn = false;
 		thisCamera.enabled = false;
-		flowController.finishFirstTV = true;
 
 	}
 	public void FinishZoominTV(){

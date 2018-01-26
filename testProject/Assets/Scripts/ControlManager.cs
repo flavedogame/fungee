@@ -18,6 +18,9 @@ public class ControlManager : MonoBehaviour {
 			return;
 		}
 		if (Input.touchCount >= 1) {
+			if (tvController.isZoomedIn) {
+				tvController.Zoomout ();
+			}
 			Vector2 vTouchPos = Input.GetTouch (0).position;
 			Ray ray = Camera.main.ScreenPointToRay (vTouchPos);
 			RaycastHit vHit;
