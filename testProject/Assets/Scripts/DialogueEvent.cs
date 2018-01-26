@@ -27,6 +27,7 @@ public class DialogueEvent : MonoBehaviour {
 		//animator.SetTrigger ("zoomout");
 		}
 	}
+		
 
 	public void AddAchievement(string[] p) {
 		//check p[1] is a number

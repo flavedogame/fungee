@@ -4,7 +4,7 @@ using UnityEngine;
 using JSONFactory;
 using AssemblyCSharp;
 
-public class DialogBubbleManager : Singleton<DialogBubbleManager>, IManager {
+public class DialogBubbleManager : MonoBehaviour, IManager {
 
 	public GameObject vCurrentBubble = null;
 	public List<PixelBubble> bubbles = new List<PixelBubble>();
@@ -26,9 +26,11 @@ public class DialogBubbleManager : Singleton<DialogBubbleManager>, IManager {
 	public ManagerState currentState{ get; private set; }
 	public void BootSequence() {
 		Debug.Log (string.Format ("{0} is booting up", GetType ().Name));
-		currentEvent = JSONFactory.JSONAssembly.RunJSONFactoryForDialog (text);
-		currentState = ManagerState.Completed;
-		UpdateDialogue ();
+		if (text != null) {
+			currentEvent = JSONFactory.JSONAssembly.RunJSONFactoryForDialog (text);
+			currentState = ManagerState.Completed;
+			UpdateDialogue ();
+		}
 		Debug.Log (string.Format ("{0} status = {1}", GetType ().Name, currentState));
 	}
 
@@ -66,7 +68,7 @@ public class DialogBubbleManager : Singleton<DialogBubbleManager>, IManager {
 		if (stepIndex < currentEvent.dialogues.Count) {
 			Dialogue currentDialog = currentEvent.dialogues [stepIndex];
 			currentSpeaker = characters [(int)currentDialog.characterType];
-			currentSpeaker.ShowBubble (currentDialog, DurationOfDialogue ());
+			currentSpeaker.ShowBubble (currentDialog, DurationOfDialogue (),dialogSpeed);
 		}
 	}
 

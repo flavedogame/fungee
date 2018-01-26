@@ -21,7 +21,6 @@ public class DialogueBubble : MonoBehaviour {
 	float dialogSpeed;
 
 	void Start(){
-		dialogSpeed = DialogBubbleManager.Instance.dialogSpeed;
 	}
 
 	private void SetLayerRecursively(GameObject obj, int newLayer){
@@ -31,7 +30,8 @@ public class DialogueBubble : MonoBehaviour {
 			SetLayerRecursively (child.gameObject, newLayer);
 		}
 	}
-	public void ShowBubble(Dialogue dialogue, float duration){
+	public void ShowBubble(Dialogue dialogue, float duration, float speed){
+		dialogSpeed = speed;
 		animator = GetComponent<Animator> ();
 		dialogEvent = GameObject.FindObjectOfType<DialogueEvent> ();
 		//Debug.Log ("show bubble " + text + " with type " + type);

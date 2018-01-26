@@ -6,8 +6,8 @@ public class DialogueTrigger : MonoBehaviour {
 	public DialogBubbleManager dialogManager;
 	public List<DialogueBubble> characters;
 	public TextAsset text;
-	public FlowController flowController;
 	public bool canTriggerRepeatedly;
+	public bool wouldPlayRepeatedly;
 
 //	public enum DialogTriggerType{
 //		hit, achievement
@@ -33,6 +33,7 @@ public class DialogueTrigger : MonoBehaviour {
 		foreach (string achievement in achievementList) {
 			string[] achievementMightWithNot = achievement.Split ('!');
 			if (achievementMightWithNot.Length > 1) {
+				Debug.Log ("achievement system"+AchievementSystem.Instance);
 				if (AchievementSystem.Instance.HasAchievementFinished (achievementMightWithNot [1])) {
 					return false;
 				}
@@ -68,13 +69,6 @@ public class DialogueTrigger : MonoBehaviour {
 				}
 			}
 		}
-
-//		if (!isTriggered && !flowController.finishFirstTV) {
-//			Debug.Log ("trigger");
-//			isTriggered = true;
-//			flowController.finishFirstTV = true;
-//			setDialog ();
-//		}
 	}
 
 	void setDialog(){
@@ -82,6 +76,7 @@ public class DialogueTrigger : MonoBehaviour {
 		dialogManager.characters = new List<DialogueBubble> (characters);
 
 		dialogManager.setDialog (text);
+		dialogManager.loop = wouldPlayRepeatedly;
 		if (!canTriggerRepeatedly) {
 			Destroy (this);
 			return;
