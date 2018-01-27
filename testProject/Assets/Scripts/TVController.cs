@@ -43,15 +43,15 @@ public class TVController : MonoBehaviour {
 		startZoomTime = Time.time;
 		zoomStart = thisCamera.rect;
 		Vector3 screenPos = Camera.main.WorldToScreenPoint (transform.position);
-		Debug.Log ("screen pos is " + screenPos);
-		Debug.Log ("screen pos after is " + screenPos.x/Screen.width);
+		//Debug.Log ("screen pos is " + screenPos);
+		//Debug.Log ("screen pos after is " + screenPos.x/Screen.width);
 		zoomTarget = new Rect (screenPos.x/Screen.width - 0.22f, 0.36f, 0.39f, 0.435f);
 		//thisCamera.rect = new Rect (0.1f, zoomTarget.y, zoomTarget.width, zoomTarget.height);
 		//thisCamera.pixelRect = new Rect (0.1f, zoomTarget.y, zoomTarget.width, zoomTarget.height);
 	}
 
 	public void Zoomin(){
-		Debug.Log ("is zoomed in" + isZoomedIn);
+		//Debug.Log ("is zoomed in" + isZoomedIn);
 		isZoomin = true;
 		isZoomout = false;
 		isZoomedIn = true;
@@ -59,7 +59,7 @@ public class TVController : MonoBehaviour {
 		startZoomTime = Time.time;
 		zoomStart = thisCamera.rect;
 		Vector3 screenPos = Camera.main.WorldToScreenPoint (transform.position);
-		Debug.Log ("screen pos is " + screenPos);
+		//Debug.Log ("screen pos is " + screenPos);
 		zoomTarget = new Rect (0f,0f,1.3f,1f);
 	}
 

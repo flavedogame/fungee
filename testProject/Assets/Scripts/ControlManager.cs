@@ -5,7 +5,6 @@ using UnityEngine;
 public class ControlManager : MonoBehaviour {
 
 	public PlayerControl playerControl;
-	public int step = 0;
 	TVController tvController;
 	// Use this for initialization
 	void Start () {
@@ -32,21 +31,21 @@ public class ControlManager : MonoBehaviour {
 				}
 			}
 		}
-		if (Input.GetKeyDown ("left")) {
-			playerControl.MoveLeft ();
-		} else if (Input.GetKeyDown ("right")) {
-			playerControl.MoveRight ();
-		} else if (Input.GetKeyDown ("up")) {
-			playerControl.Jump ();
-		} else if (Input.GetKeyDown ("down")) {
-			playerControl.Fall ();
-		} else if (Input.GetMouseButtonDown (0)) {
-			playerControl.Shoot ();
-		} else if (Input.GetKeyDown ("space")) {
-			playerControl.Jump ();
-		} else {
-			return;
-		}
+//		if (Input.GetKeyDown ("left")) {
+//			playerControl.MoveLeft ();
+//		} else if (Input.GetKeyDown ("right")) {
+//			playerControl.MoveRight ();
+//		} else if (Input.GetKeyDown ("up")) {
+//			playerControl.Jump ();
+//		} else if (Input.GetKeyDown ("down")) {
+//			playerControl.Fall ();
+//		} else if (Input.GetMouseButtonDown (0)) {
+//			playerControl.Shoot ();
+//		} else if (Input.GetKeyDown ("space")) {
+//			playerControl.Jump ();
+//		} else {
+//			return;
+//		}
 
 	}
 }
