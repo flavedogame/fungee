@@ -1,1 +1,4 @@
-{"finishFirstTV":{"name":"finishFirstTV","currentValue":26,"finishValue":1},"finishPrologue":{"name":"finishPrologue","currentValue":0,"finishValue":1}}
+{"finishFirstTV":{"name":"finishFirstTV","currentValue":26,"finishValue":1},
+"finishPrologue":{"name":"finishPrologue","currentValue":0,"finishValue":1},
+"getGun":{"name":"getGun","currentValue":0,"finishValue":1},
+"learnsJump":{"name":"learnsJump","currentValue":0,"finishValue":1}}
